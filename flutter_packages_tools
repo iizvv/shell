@@ -80,17 +80,17 @@ package_shell() {
 }
 
 cat << eof
-    <=====================================
-     = 1: flutter clean
+<=====================================
+1: flutter clean
 
-     = 2: flutter pub get  
+2: flutter pub get  
 
-     = 3: flutter pub upgrade   
+3: flutter pub upgrade   
 
-     = 4: flutter create package
+4: flutter create package
 
-     = other: quit shell
-    =====================================>              
+other: quit shell
+=====================================>              
 eof
 
 read -p "请输入你要完成的操作": num
@@ -124,4 +124,4 @@ case $num in
 esac
 
 endTime=`date +"%s.%N"`
-echo `awk -v x1="$(echo $endTime | cut -d '.' -f 1)" -v x2="$(echo $startTime | cut -d '.' -f 1)" -v y1="$[$(echo $endTime | cut -d '.' -f 2) / 1000]" -v y2="$[$(echo $startTime | cut -d '.' -f 2) /1000]" 'BEGIN{printf "RunTIme:%.6f s",(x1-x2)+(y1-y2)/1000000}'`
+echo `awk -v x1="$(echo $endTime | cut -d '.' -f 1)" -v x2="$(echo $startTime | cut -d '.' -f 1)" -v y1="$[$(echo $endTime | cut -d '.' -f 2) / 1000]" -v y2="$[$(echo $startTime | cut -d '.' -f 2) /1000]" 'BEGIN{printf "RunTime:%.6f s",(x1-x2)+(y1-y2)/1000000}'`
