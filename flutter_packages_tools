@@ -99,17 +99,17 @@ case $num in
     1)
     echo "开始执行flutter clean"
     startTime=`date +"%s.%N"`
-    run_shell 1 `pwd`
+    dependencies_shell 1 `pwd`
     ;;
     2)
     echo "开始执行flutter pub get"
     startTime=`date +"%s.%N"`
-    run_shell 2 `pwd`
+    dependencies_shell 2 `pwd`
     ;;
     3)
     echo "开始执行flutter pub upgrade"
     startTime=`date +"%s.%N"`
-    run_shell 3 `pwd`
+    dependencies_shell 3 `pwd`
     ;;
     4)
     read -p "请输入packageName": package_name
