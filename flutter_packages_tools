@@ -21,7 +21,7 @@ dependencies_shell(){
     do
         if [ -d $2"/"$file ]
         then
-            run_shell $1 $2"/"$file
+            dependencies_shell $1 $2"/"$file
         else
             if [ $file = "pubspec.yaml" ];then
                 cd $2
