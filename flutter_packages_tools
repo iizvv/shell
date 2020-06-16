@@ -1,0 +1,127 @@
+#! /bin/bash
+# author: iizvv
+
+# Mac: 赋予shell可执行权限 chmod +x flutter_shell
+# Win: 使用Git Bash
+
+
+# cd至项目根目录, 执行 存储路径/flutter_shell，
+# 也可将flutter_shell加入至系统环境变量中
+echo ""
+echo "flutter多package快捷操作工具"
+echo "PATH: $0"
+echo "AUTHOR: iizvv"
+echo "GIT: https://github.com/iizvv/shell"
+echo "VERSION: 0.0.1"
+echo ""
+
+# 依赖操作
+dependencies_shell(){
+    for file in `ls $2`
+    do
+        if [ -d $2"/"$file ]
+        then
+            run_shell $1 $2"/"$file
+        else
+            if [ $file = "pubspec.yaml" ];then
+                cd $2
+                case $1 in
+                    1)
+                    flutter clean
+                    rm -rf .flutter-plugins
+                    rm -rf .flutter-plugins-dependencies
+                    ;;
+                    2)
+                    flutter pub get
+                    ;;
+                    3)
+                    flutter pub upgrade
+                    ;;
+                esac
+                echo $2
+            fi
+        fi
+    done
+}
+
+# 创建package
+package_shell() {
+    flutter create --template=package $1
+    mkdir $1/lib/src/
+    mkdir $1/lib/src/model/
+    mkdir $1/lib/src/widgets/
+    package=""
+    string=$1
+    array=(`echo $string | tr '_' ' '` )
+    for name in ${array[@]}
+    do
+        str=$name
+        firstLetter=${str:0:1}
+        otherLetter=${str:1}
+        firstLetter=$(echo $firstLetter | tr '[a-z]' '[A-Z]')
+        package=${package}${firstLetter}${otherLetter}
+    done
+    pageName="${package}Page"
+    echo "
+    import 'package:flutter/material.dart';
+
+    class ${pageName} extends StatefulWidget {
+    @override
+    State<StatefulWidget> createState() => _${pageName}State();
+    }
+
+    class _${pageName}State extends State<${pageName}> {
+    @override
+    Widget build(BuildContext context) {
+        return Scaffold();
+      }
+    }
+    " > $1/lib/src/$1_page.dart
+}
+
+cat << eof
+    <=====================================
+     = 1: flutter clean
+
+     = 2: flutter pub get  
+
+     = 3: flutter pub upgrade   
+
+     = 4: flutter create package
+
+     = other: quit shell
+    =====================================>              
+eof
+
+read -p "请输入你要完成的操作": num
+
+case $num in
+    1)
+    echo "开始执行flutter clean"
+    startTime=`date +"%s.%N"`
+    run_shell 1 `pwd`
+    ;;
+    2)
+    echo "开始执行flutter pub get"
+    startTime=`date +"%s.%N"`
+    run_shell 2 `pwd`
+    ;;
+    3)
+    echo "开始执行flutter pub upgrade"
+    startTime=`date +"%s.%N"`
+    run_shell 3 `pwd`
+    ;;
+    4)
+    read -p "请输入packageName": package_name
+    echo "开始执行flutter create package"
+    startTime=`date +"%s.%N"`
+    package_shell $package_name
+    ;;
+    *)
+    startTime=`date +"%s.%N"`
+    echo "退出"
+    ;;
+esac
+
+endTime=`date +"%s.%N"`
+echo `awk -v x1="$(echo $endTime | cut -d '.' -f 1)" -v x2="$(echo $startTime | cut -d '.' -f 1)" -v y1="$[$(echo $endTime | cut -d '.' -f 2) / 1000]" -v y2="$[$(echo $startTime | cut -d '.' -f 2) /1000]" 'BEGIN{printf "RunTIme:%.6f s",(x1-x2)+(y1-y2)/1000000}'`
