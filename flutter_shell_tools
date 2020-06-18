@@ -8,12 +8,12 @@
 # cd至项目根目录, 执行 存储路径/flutter_shell，
 # 也可将flutter_shell加入至系统环境变量中
 echo ""
-echo "flutter多package快捷操作工具"
+echo "flutter项目快捷操作工具"
 echo "PATH: $0"
-echo "AUTHOR: iizvv"
-echo "GIT: https://github.com/iizvv/shell"
-echo "VERSION: 0.0.1"
+echo "VERSION: 0.0.2"
 echo ""
+
+startTime=`date +"%s.%N"`
 
 # 依赖操作
 dependencies_shell(){
@@ -79,6 +79,10 @@ package_shell() {
     " > $1/lib/src/$1_page.dart
 }
 
+plugin_shell() {
+    flutter create --template=plugin $1
+}
+
 cat << eof
 <=====================================
 1: flutter clean
@@ -89,6 +93,8 @@ cat << eof
 
 4: flutter create package
 
+5: flutter create plugin
+
 other: quit shell
 =====================================>              
 eof
@@ -98,27 +104,27 @@ read -p "请输入你要完成的操作": num
 case $num in
     1)
     echo "开始执行flutter clean"
-    startTime=`date +"%s.%N"`
     dependencies_shell 1 `pwd`
     ;;
     2)
     echo "开始执行flutter pub get"
-    startTime=`date +"%s.%N"`
     dependencies_shell 2 `pwd`
     ;;
     3)
     echo "开始执行flutter pub upgrade"
-    startTime=`date +"%s.%N"`
     dependencies_shell 3 `pwd`
     ;;
     4)
     read -p "请输入packageName": package_name
     echo "开始执行flutter create package"
-    startTime=`date +"%s.%N"`
     package_shell $package_name
     ;;
+    5)
+    read -p "请输入pluginName": package_name
+    echo "开始执行flutter create plugin"
+    plugin_shell $package_name
+    ;;
     *)
-    startTime=`date +"%s.%N"`
     echo "退出"
     ;;
 esac
