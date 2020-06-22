@@ -1,12 +1,12 @@
 #! /bin/bash
 # author: iizvv
 
-# Mac: 赋予shell可执行权限 chmod +x flutter_shell_tools
+# Mac: 赋予shell可执行权限 chmod +x flutter_shell
 # Win: 使用Git Bash
 
 
-# cd至项目根目录, 执行 存储路径/flutter_shell_tools，
-# 也可将flutter_shell_tools加入至系统环境变量中
+# cd至项目根目录, 执行 存储路径/flutter_shell，
+# 也可将flutter_shell加入至系统环境变量中
 echo ""
 echo "flutter项目快捷操作工具"
 echo "PATH: $0"
